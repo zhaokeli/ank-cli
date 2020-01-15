@@ -29,7 +29,7 @@
     },
     "require":
     {
-        "ank/framework": "~1.1"
+
     },
     "bin": [
         "bin/ank"

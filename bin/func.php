@@ -64,3 +64,13 @@ function create_app(string $src, string $des, string $moduleName)
     }
     closedir($dir);
 }
+
+function getChar($question)
+{
+    echo $question, '(y/n): ';
+    while (!feof(STDIN)) {
+        $line = fread(STDIN, 1024);
+
+        return $line;
+    }
+}
