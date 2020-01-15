@@ -10,7 +10,9 @@
         "email": "735579768@qq.com"
     }],
     "require":
-    {},
+    {
+        "ank/framework": "^1.1"
+    },
     "autoload":
     {
         "psr-4":
@@ -21,7 +23,6 @@
             "widget\\": "widget",
             "validate\\": "validate",
             "utils\\": "utils",
-            "widget\\": "widget",
             "middleware\\": "middleware"
         }
     },

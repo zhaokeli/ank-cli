@@ -28,6 +28,14 @@ function copy_dir($src, $des)
     closedir($dir);
 }
 
+function cli_write_file($path, $data)
+{
+    if (!is_dir(dirname($path))) {
+        mkdir(dirname($path));
+    }
+    file_put_contents($path, $data);
+}
+
 /**
  * 自动创建一个app(composer)目录结构
  * @authname [权限名字]     0
@@ -58,7 +66,7 @@ function create_app(string $src, string $des, string $moduleName)
                     'MODULE_NAME' => $moduleName,
                 ];
                 $str = strtr($str, $restr);
-                file_put_contents($d_path, $str);
+                cli_write_file($d_path, $str);
             }
         }
     }
@@ -67,10 +75,16 @@ function create_app(string $src, string $des, string $moduleName)
 
 function getChar($question)
 {
-    echo $question, '(y/n): ';
+    echo $question;
     while (!feof(STDIN)) {
         $line = fread(STDIN, 1024);
 
-        return $line;
+        return trim($line);
     }
+}
+
+function clilog($str = '')
+{
+    echo $str, PHP_EOL;
+    flush();
 }

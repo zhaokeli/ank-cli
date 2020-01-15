@@ -1,6 +1,6 @@
 {
-    "name": "ank/module-MODULE_NAME",
-    "description": "ank-MODULE_NAME",
+    "name": "ank/example",
+    "description": "ank-example",
     "type": "project",
     "license": "MIT",
     "minimum-stability": "dev",
@@ -11,7 +11,7 @@
     }],
     "require":
     {
-        "ank/framework": "~1.1"
+        "ank/framework": "^1.1"
     },
     "autoload":
     {
@@ -20,10 +20,8 @@
             "controller\\": "controller",
             "model\\": "model",
             "logic\\": "logic",
-            "widget\\": "widget",
             "validate\\": "validate",
             "utils\\": "utils",
-            "widget\\": "widget",
             "middleware\\": "middleware"
         }
     },
@@ -32,6 +30,14 @@
         "branch-alias":
         {
             "dev-master": "1.0.x-dev"
+        }
+    },
+    "repositories":
+    {
+        "1":
+        {
+            "type": "vcs",
+            "url": "https://gitee.com/ainiku/ank-framework.git"
         }
     }
 }

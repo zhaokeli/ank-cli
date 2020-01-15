@@ -7,10 +7,24 @@ error_reporting(E_ALL);
 ini_set('display_errors', 1);
 require_once __DIR__ . '/func.php';
 $workDir = getcwd();
+$tplPath = __DIR__ . '/../tpl';
 $action  = $argv[1] ?? '';
 if (!file_exists($workDir . '/composer.json')) {
-    $anw = getChar('create Project?');
+    $anw = getChar('Create Project ?  (y/n):');
     if ($anw == 'y') {
+        while (true) {
+            $anw = getChar('Project Name:');
+            if (!preg_match('/[\w\d\-\_]{5,10}/', $anw, $mat)) {
+                continue;
+            }
+            if (!is_dir($workDir . '/' . $anw)) {
+                $workDir = $workDir . '/' . $anw;
+                mkdir($workDir);
+                chdir($anw);
+                break;
+            }
+        }
+        clilog('create project...');
         $name = $argv[2] ?? 'index';
         copy_dir($tplPath . '/project', $workDir);
         create_app($tplPath . '/app', $workDir . '/app', $name);
@@ -18,14 +32,9 @@ if (!file_exists($workDir . '/composer.json')) {
     }
     exit;
 }
-// else {
-//     echo 'composer.json exist', PHP_EOL;
-// }
 
 global $loader;
 $autoloadFiles = [
-    // __DIR__ . '/../vendor/autoload.php',
-    // __DIR__ . '/../../../autoload.php',
     $workDir . '/vendor/autoload.php',
 ];
 $autoloaderFound = false;
@@ -43,8 +52,6 @@ $autoloaderFound or exit(
     'curl -s http://getcomposer.org/installer | php' . PHP_EOL .
     'php composer.phar install' . PHP_EOL
 );
-
-$tplPath = __DIR__ . '/../tpl';
 
 // echo $action, $name, PHP_EOL;
 //设置argc argv进入对应控制器
