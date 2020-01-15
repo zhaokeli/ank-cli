@@ -3,31 +3,36 @@
 // Setup Global Error Levels
 //
 //--------------------------------------------------------------
-error_reporting(E_ALL);
+// error_reporting(E_ALL);
 ini_set('display_errors', 1);
 require_once __DIR__ . '/func.php';
-$workDir = getcwd();
-$tplPath = __DIR__ . '/../tpl';
-$action  = $argv[1] ?? '';
+$workDir    = getcwd();
+$tplPath    = __DIR__ . '/../src/tpl';
+$controller = trim($argv[1] ?? '');
+$action     = $argv[2] ?? '';
 if (!file_exists($workDir . '/composer.json')) {
-    $anw = getChar('Create Project ?  (y/n):');
+    $anw = getChar('Creating Project ?  (y/n):');
     if ($anw == 'y') {
-        while (true) {
-            $anw = getChar('Project Name:');
-            if (!preg_match('/[\w\d\-\_]{5,10}/', $anw, $mat)) {
-                continue;
-            }
-            if (!is_dir($workDir . '/' . $anw)) {
-                $workDir = $workDir . '/' . $anw;
-                mkdir($workDir);
-                chdir($anw);
-                break;
-            }
+        $projectName = getRequireName('Project Name:');
+        $dirName     = getRequireName('Project Dir Name (default is Project Name):', false);
+        $moduleName  = getRequireName('Default Module Name:');
+        $dirName || ($dirName = $projectName);
+        if (!is_dir($workDir . '/' . $dirName)) {
+            $workDir = $workDir . '/' . $dirName;
+            mkdir($workDir);
+            chdir($workDir);
         }
+
         clilog('create project...');
-        $name = $argv[2] ?? 'index';
-        copy_dir($tplPath . '/project', $workDir);
-        create_app($tplPath . '/app', $workDir . '/app', $name);
+        $name  = $argv[2] ?? 'index';
+        $rearr = [
+            'MODULE_NAME'  => $moduleName,
+            'MODULE_NAME.' => $moduleName . '/',
+            'PROJECT_NAME' => $projectName,
+
+        ];
+        copy_dir($tplPath . '/project', $workDir, $rearr);
+        copy_dir($tplPath . '/app', $workDir . '/app', $rearr);
         exec('composer --working-dir=' . $workDir . ' install');
     }
     exit;
@@ -53,26 +58,22 @@ $autoloaderFound or exit(
     'php composer.phar install' . PHP_EOL
 );
 
-// echo $action, $name, PHP_EOL;
-//设置argc argv进入对应控制器
-$argc    = 2;
-$isStart = false;
-if ($action === 'greate') {
-    $argv = [
-        '-m=cli',
-        '-c=index',
-        '-a=greateTable',
-    ];
-    $isStart = true;
+switch ($controller) {
+    case 'install':
+        $args = implode(' ', $argv);
+        $str  = substr(strpos($args, 'install '), $args);
+        exec('composer --working-dir=' . $workDir . ' install' . $str);
+        break;
+
+    default:
+        $obj = loadlib($controller);
+        if ($obj) {
+            if ($action && method_exists($obj, $action)) {
+                $obj->$action();
+            } else {
+                $obj->run();
+            }
+
+        }
+        break;
 }
-// elseif ($action === 'create') {
-//     if (!file_exists($workDir . '/composer.json')) {
-//         $name = $argv[2] ?? 'index';
-//         copy_dir($tplPath . '/project', $workDir);
-//         create_app($tplPath . '/app', $workDir . '/app', $name);
-//         exec('composer --working-dir=' . $workDir . ' install');
-//     } else {
-//         echo 'composer.json exist', PHP_EOL;
-//     }
-// }
-$isStart && \ank\App::start()->send();

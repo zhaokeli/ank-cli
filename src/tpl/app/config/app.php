@@ -3,7 +3,7 @@
 return [
     //////////////以下配置只在此配置文件中有效，不能放到其它模块配置文件中,因为要预加载///////////////////
     ///建议自己的配置放在同目录其它文件中，文件名可自定义,会自动加载合并
-    'default_module'    => 'index',
+    'default_module'    => 'MODULE_NAME',
     'app_debug'         => false,
     'app_trace'         => true,
     'allow_module_list' => ['admin', 'index', 'wuliu', 'api'],
