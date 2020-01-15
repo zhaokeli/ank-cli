@@ -1,0 +1,22 @@
+# 调试配置
+app_debug: true
+app_trace: true
+
+# 数据库配置
+db_config:
+  database_type: mysql
+  database_name: testdb
+  server: 127.0.0.1
+  username: root
+  password: mimashizhe
+  port: 3306
+  charset: utf-8
+  prefix: kl_
+  slow_query_time: 2000
+
+# 日志配置
+log:
+  start: true
+  path: /logs/{Y}{m}/{d}/{type}
+  level: []
+  record_trace: true
