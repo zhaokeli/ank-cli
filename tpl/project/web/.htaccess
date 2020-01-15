@@ -1,0 +1,9 @@
+<IfModule mod_rewrite.c>
+Options +FollowSymlinks
+RewriteEngine On
+#RewriteCond %{HTTP:Host} ^zhaokeli.com
+#RewriteRule ^(.*) http://www.zhaokeli.com/$1 [L,R=301]
+RewriteCond %{REQUEST_FILENAME} !-d
+RewriteCond %{REQUEST_FILENAME} !-f
+RewriteRule ^(?!uploads)(?!public)(.*)$ index.php [L,E=PATH_INFO:$1]
+</IfModule>
