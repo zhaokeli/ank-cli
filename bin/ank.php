@@ -30,8 +30,8 @@ $workDir = getcwd();
 $tplPath = __DIR__ . '/../tpl';
 
 $action = $argv[1] ?? '';
-$name   = $argv[2] ?? 'all';
-echo $action, $name, PHP_EOL;
+
+// echo $action, $name, PHP_EOL;
 //设置argc argv进入对应控制器
 $argc    = 2;
 $isStart = false;
@@ -44,7 +44,9 @@ if ($action === 'greate') {
     $isStart = true;
 } elseif ($action === 'create') {
     if (!file_exists($workDir . '/composer.json')) {
-        copyDir($tplPath . '/project', $workDir);
+        $name = $argv[2] ?? 'index';
+        copy_dir($tplPath . '/project', $workDir);
+        create_app($tplPath . '/app', $workDir . '/app', $name);
         exec('composer --working-dir=' . $workDir . ' install');
     } else {
         echo 'composer.json exist', PHP_EOL;
