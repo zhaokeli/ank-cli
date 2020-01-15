@@ -1,0 +1,31 @@
+{
+    "app_debug": true,
+    "app_trace": true,
+    "db_config":
+    {
+        "database_type": "mysql",
+        "database_name": "ank_crm",
+        "server": "127.0.0.1",
+        "username": "root",
+        "password": "HEli8888-_-mYsql",
+        "charset": "utf8",
+        "port": 3306,
+        "prefix": "kl_",
+        "slow_query_time": 2000,
+    },
+    "log":
+    {
+        "start": true,
+        "path": "/logs/{Y}{m}/{d}/{type}",
+        "level": [],
+        "record_trace": true
+    },
+    "cache":
+    {
+        "redis":
+        {
+            "host": "127.0.0.1"
+        }
+
+    }
+}
