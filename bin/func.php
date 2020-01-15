@@ -41,6 +41,7 @@ function getRequireName($str, $isRequire = true)
     while (true) {
         $anw = getChar($str);
         if ($isRequire && !preg_match('/[\w\d\-\_]{3,10}/', $anw, $mat)) {
+            echo "\r";
             continue;
         }
 
