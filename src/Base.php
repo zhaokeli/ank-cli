@@ -12,10 +12,13 @@ class Base
 
     protected $db = null;
 
+    protected $workDir = null;
+
     public function __construct()
     {
-        $this->app = App::getInstance();
-        $this->db  = $this->app->get('db');
+        $this->workDir = getcwd();
+        $this->app     = App::getInstance();
+        $this->db      = $this->app->get('db');
     }
 
     protected function run()

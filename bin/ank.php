@@ -16,12 +16,19 @@ if (!$controller) {
 
 \033[33mAvailable commands:\033[0m
 
-Commands                  Descript
-\033[32mcreate project            \033[0mcreate project
-\033[32mcreate all                \033[0mcreate validate and model,skip if exist
-\033[32mcreate validate           \033[0mcreate validate,skip if exist
-\033[32mcreate model              \033[0mcreate model,skip if exist
-\033[32mcreate app                \033[0mcreate example application
+Commands                                  Descript
+\033[32mcreate project                    \033[0mcreate project
+\033[32mcreate all                        \033[0mcreate validate and model,skip if exist
+\033[32mcreate validate                   \033[0mcreate validate,skip if exist
+\033[32mcreate model                      \033[0mcreate model,skip if exist
+\033[32mcreate app                        \033[0mcreate example application
+
+\033[33mDatabase Migration:               \033[0m
+\033[32mdb migrations:generate            \033[0m生成迁移脚本
+\033[32mdb migrations:migrate             \033[0m迁移到最新版本
+\033[32mdb migrations:migrate [version]   \033[0m迁移到指定版本
+\033[32mdb status                         \033[0m查看详细信息
+\033[32mdb ......                         \033[0mdoc: https://www.doctrine-project.org/projects/doctrine-migrations/en/2.2/index.html
 
 
 eot;
@@ -52,7 +59,7 @@ if ($controller == 'create' && $action == 'project') {
             ];
             copy_dir($tplPath . '/project', $workDir, $rearr);
             copy_dir($tplPath . '/app', $workDir . '/app', $rearr);
-            exec('composer --working-dir=' . $workDir . ' install');
+            system('composer --working-dir=' . $workDir . ' install');
         }
     } else {
         clilog('project is exist');
@@ -79,12 +86,16 @@ $autoloaderFound or exit(
     'curl -s http://getcomposer.org/installer | php' . PHP_EOL .
     'php composer.phar install' . PHP_EOL
 );
-
+if (strpos($controller, 'db') !== false) {
+    $obj = loadlib('migration');
+    $obj->run();
+    exit;
+}
 switch ($controller) {
     case 'install':
         $args = implode(' ', $argv);
         $str  = substr(strpos($args, 'install '), $args);
-        exec('composer --working-dir=' . $workDir . ' install' . $str);
+        system('composer --working-dir=' . $workDir . ' install' . $str);
         break;
 
     default:
