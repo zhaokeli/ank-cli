@@ -2,6 +2,7 @@
     "name": "ank/cli",
     "type": "library",
     "minimum-stability": "dev",
+    "license": "MIT",
     "authors": [
     {
         "name": "kelicom",
