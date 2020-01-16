@@ -7,7 +7,7 @@ namespace ank\cli;
 class Preload extends Base
 {
     //忽略的目录 文件 正则使用 /表达式/ 后面不加修饰符
-    protected $ignores = ['Psr/Log/Test', 'doctrine/cache/tests', 'doctrine/event-manager/tests', 'ramsey/uuid/tests', 'lang', 'tpl', '.git', '.idea', '.vscode', 'logs', 'uploads', 'static', 'public',
+    protected $ignores = ['Psr/Log/Test', 'doctrine/cache/tests', 'doctrine/event-manager/tests', 'ramsey/uuid/tests', 'tpl', '.git', '.idea', '.vscode', 'logs', 'uploads', 'static', 'public', 'example', 'Example',
         '/doctrine/inflector/tests',
         '/doctrine/migrations/tests',
         '/symfony/console/Tests',
@@ -19,11 +19,25 @@ class Preload extends Base
         '/symfony/translation-contracts/Test',
         '/jakub-onderka/php-console-color/tests',
         '/views',
+        '/bin/',
     ];
 
-    protected $proloadConfig = [];
+    //预加载的脚本目录全路径路径
+    protected $paths = [
 
+    ];
+
+    //预加载的脚本后缀
     protected $suffix = ['.php'];
+
+    public function __construct()
+    {
+        parent::__construct();
+        $config = $this->app->config('preload') ?: [];
+        foreach ($config as $key => $value) {
+            $this->$key = $value;
+        }
+    }
 
     public function loopDir($dir)
     {
@@ -53,24 +67,10 @@ class Preload extends Base
 
     public function run()
     {
-        $list = array_merge(
-            $this->loopDir($this->workDir . '/vendor/aliyuncs'),
-            $this->loopDir($this->workDir . '/vendor/ramsey'),
-            $this->loopDir($this->workDir . '/vendor/psr'),
-            $this->loopDir($this->workDir . '/vendor/ank/admin-alioss'),
-            $this->loopDir($this->workDir . '/vendor/ank/framework'),
-            $this->loopDir($this->workDir . '/vendor/ank/admin-base'),
-            $this->loopDir($this->workDir . '/vendor/ank/extend'),
-            $this->loopDir($this->workDir . '/vendor/ank/image'),
-            $this->loopDir($this->workDir . '/vendor/ank/iplookup'),
-            $this->loopDir($this->workDir . '/vendor/ank/template'),
-            $this->loopDir($this->workDir . '/vendor/illuminate'),
-            $this->loopDir($this->workDir . '/vendor/duncan3dc'),
-            $this->loopDir($this->workDir . '/vendor/doctrine'),
-            $this->loopDir($this->workDir . '/vendor/mokuyu'),
-            $this->loopDir($this->workDir . '/vendor/symfony'),
-            $this->loopDir($this->workDir . '/vendor/jakub-onderka')
-        );
+        $list = [];
+        foreach ($this->paths as $key => $value) {
+            $list = array_merge($list, $this->loopDir($value));
+        }
         array_walk($list, function (&$value, $key) {
             $value = str_replace([$this->workDir . DIRECTORY_SEPARATOR . 'vendor', '\\'], ['__DIR__ . \'', '/'], $value);
         });
