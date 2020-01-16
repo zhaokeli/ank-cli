@@ -15,20 +15,19 @@ if (!$controller) {
 \033[32mANK Cli 1.0.0\033[0m
 
 \033[33mAvailable commands:\033[0m
-
-Commands                                  Descript
-\033[32mcreate project                    \033[0mcreate project
-\033[32mcreate all                        \033[0mcreate validate and model,skip if exist
-\033[32mcreate validate                   \033[0mcreate validate,skip if exist
-\033[32mcreate model                      \033[0mcreate model,skip if exist
-\033[32mcreate app                        \033[0mcreate example application
+  \033[32mcreate project                    \033[0mcreate project
+  \033[32mcreate all                        \033[0mcreate validate and model,skip if exist
+  \033[32mcreate validate                   \033[0mcreate validate,skip if exist
+  \033[32mcreate model                      \033[0mcreate model,skip if exist
+  \033[32mcreate app                        \033[0mcreate example application
+  \033[32mpreload                           \033[0mcreate preload script
 
 \033[33mDatabase Migration:               \033[0m
-\033[32mdb migrations:generate            \033[0m生成迁移脚本
-\033[32mdb migrations:migrate             \033[0m迁移到最新版本
-\033[32mdb migrations:migrate [version]   \033[0m迁移到指定版本
-\033[32mdb status                         \033[0m查看详细信息
-\033[32mdb ......                         \033[0mdoc: https://www.doctrine-project.org/projects/doctrine-migrations/en/2.2/index.html
+  \033[32mdb migrations:generate            \033[0m生成迁移脚本
+  \033[32mdb migrations:migrate             \033[0m迁移到最新版本
+  \033[32mdb migrations:migrate [version]   \033[0m迁移到指定版本
+  \033[32mdb status                         \033[0m查看详细信息
+  \033[32mdb ......                         \033[0mdoc: https://www.doctrine-project.org/projects/doctrine-migrations/en/2.2/index.html
 
 
 eot;
@@ -108,6 +107,8 @@ switch ($controller) {
                 $obj->run();
             }
 
+        } else {
+            echo 'not command execed !' . PHP_EOL;
         }
         break;
 }
