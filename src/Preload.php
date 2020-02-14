@@ -71,6 +71,25 @@ class Preload extends Base
         foreach ($this->paths as $key => $value) {
             $list = array_merge($list, $this->loopDir($value));
         }
+        //把没有依赖没有继承的放前面加载
+        //interface
+        // $interfaces     = [];
+        // $aloneClasses   = [];
+        // $extendsClasses = [];
+        // foreach ($list as $key => $value) {
+        //     if (strpos($value, 'TranslationWriterInterface') !== false) {
+        //         echo 'run';
+        //     }
+        //     $content = file_get_contents($value);
+        //     if (preg_match('/\s+interface\s+[\w\d_]+/i', $content, $mat)) {
+        //         $interfaces[] = $value;
+        //     } else if (preg_match('/\n\s*class\s+[\w\d_]+\n/i', $content, $mat)) {
+        //         $aloneClasses[] = $value;
+        //     } else {
+        //         $extendsClasses[] = $value;
+        //     }
+        // }
+        // $list = array_merge($interfaces, $aloneClasses, $extendsClasses);
         array_walk($list, function (&$value, $key) {
             $value = str_replace([$this->workDir . DIRECTORY_SEPARATOR . 'vendor', '\\'], ['__DIR__ . \'', '/'], $value);
         });

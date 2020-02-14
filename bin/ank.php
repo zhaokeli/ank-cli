@@ -23,9 +23,9 @@ if (!$controller) {
   \033[32mpreload                           \033[0mcreate preload script
 
 \033[33mDatabase Migration:               \033[0m
-  \033[32mdb migrations:generate            \033[0m生成迁移脚本
-  \033[32mdb migrations:migrate             \033[0m迁移到最新版本
-  \033[32mdb migrations:migrate [version]   \033[0m迁移到指定版本
+  \033[32mdb generate            \033[0m生成迁移脚本
+  \033[32mdb migrate             \033[0m迁移到最新版本
+  \033[32mdb migrate [version]   \033[0m迁移到指定版本
   \033[32mdb status                         \033[0m查看详细信息
   \033[32mdb ......                         \033[0mdoc: https://www.doctrine-project.org/projects/doctrine-migrations/en/2.2/index.html
 

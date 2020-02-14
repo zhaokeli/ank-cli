@@ -17,8 +17,11 @@ class Base
     public function __construct()
     {
         $this->workDir = getcwd();
-        $this->app     = App::getInstance();
-        $this->db      = $this->app->get('db');
+        $this->app     = App::getInstance([
+            'siteRoot' => realpath($this->workDir . '/web'),
+            'appPath'  => realpath($this->workDir),
+        ]);
+        $this->db = $this->app->get('db');
     }
 
     protected function run()

@@ -4,7 +4,7 @@
  * This file was generated automatically. Any changes will be overwritten
  * during the next "composer preload" command.
  */
-
+error_reporting(E_ALL);
 if (!function_exists('opcache_compile_file') || !ini_get('opcache.enable')) {
     echo 'Opcache is not available.';
     die(1);
